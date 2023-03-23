@@ -7,16 +7,17 @@ import { tw } from "twind"
 
 const SLIDE_DATA = [
   { url: asset('/snow_den.png'), alt: "snowy deno" },
-  { url: asset('/v1.png'), alt: "something" },
+  { url: asset('/v1.png'), alt: "deno world is raining" },
   { url: asset('/deno_news.png'), alt: "deno news" },
   { url: asset('/deno_city.jpeg'), alt: "deno city" }
 ]
 
 const Slide = (props) => {
   const {index, data} = props;
+  if ( props.class === undefined ) props.class = ""
   return (  <img
     src={data.url}
-    alt={data.alternativeText}
+    alt={data.alt}
     index={index}
     class={props.class}
   />)
