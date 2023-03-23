@@ -28,13 +28,12 @@ const Slideshow = (props) => {
   const CHEVRON_STYLE =
     `absolute z-10 w-10 h-10 hover:text-grey ${NAVIGATION_COLOR} cursor-pointer`
   const SHOW_NAVIGATION = props.showNavigation === false ? false : true
-  const SLIDE_INTERVAL = parseInt(props.interval) ? props.interval : 3500
+  const SLIDE_INTERVAL = parseInt(props.interval) ? parseInt(props.interval) : 3500
   const currentSlide = useSignal(
-    parseInt(props.currentSlide) ? props.currentSlide : 0,
+    parseInt(props.currentSlide) ? parseInt(props.currentSlide) : 0,
   )
   const automatic = useSignal(props.automatic ? true : false)
   const slideshow = useRef(null)
-  const { media } = props
 
   const slideClasses = (idx = 0) =>
     tw`slide absolute top-0 left-0 transition-all ease-in-out duration-700 transform ${
