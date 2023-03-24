@@ -2,6 +2,7 @@
   "imports": {
     "@/": "./",
     "$fresh/": "https://deno.land/x/fresh@1.1.4/",
+    "$icons/": "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/",
     "preact": "https://esm.sh/preact@10.11.0",
     "preact/": "https://esm.sh/preact@10.11.0/",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@5.2.4",
