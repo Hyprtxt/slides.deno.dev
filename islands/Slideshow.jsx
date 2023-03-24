@@ -41,7 +41,7 @@ const Slideshow = (props) => {
 
   const slideClasses = (idx = 0) =>
     tw`slide absolute top-0 left-0 transition-all ease-in-out duration-700 transform ${
-      currentSlide.value === idx ? "translate-x-0" : "translate-x-full"
+      currentSlide.value === idx ? "opacity-1" : "opacity-0"
     }`
 
   const nextSlide = () => {
