@@ -65,6 +65,7 @@ const Slideshow = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      console.log( "INTERVALLALS", automatic.value, SLIDE_INTERVAL)
       if (automatic.value) nextSlide()
     }, SLIDE_INTERVAL)
     return () => clearInterval(interval)

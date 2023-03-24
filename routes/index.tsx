@@ -13,7 +13,7 @@ export default function Home() {
         <p class="my-6">
           Here's a nice little slideshow with auto-start and keyboard controls.
         </p>
-        <Slideshow />
+        <Slideshow automatic />
         <p><a href="https://github.com/Hyprtxt/slides.deno.dev/blob/main/islands/Slideshow.jsx">View Island Source Code Here</a></p>
       </div>
     </>
