@@ -6,21 +6,23 @@ import { asset } from "$fresh/runtime.ts"
 import { tw } from "twind"
 
 const SLIDE_DATA = [
-  { url: asset('/snow_den.png'), alt: "snowy deno" },
-  { url: asset('/v1.png'), alt: "deno world is raining" },
-  { url: asset('/deno_news.png'), alt: "deno news" },
-  { url: asset('/deno_city.jpeg'), alt: "deno city" }
+  { url: asset("/snow_den.png"), alt: "snowy deno" },
+  { url: asset("/v1.png"), alt: "deno world is raining" },
+  { url: asset("/deno_news.png"), alt: "deno news" },
+  { url: asset("/deno_city.jpeg"), alt: "deno city" },
 ]
 
 const Slide = (props) => {
-  const {index, data} = props;
-  if ( props.class === undefined ) props.class = ""
-  return (  <img
-    src={data.url}
-    alt={data.alt}
-    index={index}
-    class={props.class}
-  />)
+  const { index, data } = props
+  if (props.class === undefined) props.class = ""
+  return (
+    <img
+      src={data.url}
+      alt={data.alt}
+      index={index}
+      class={props.class}
+    />
+  )
 }
 
 const Slideshow = (props) => {
@@ -28,7 +30,9 @@ const Slideshow = (props) => {
   const CHEVRON_STYLE =
     `absolute z-10 w-10 h-10 hover:text-grey ${NAVIGATION_COLOR} cursor-pointer`
   const SHOW_NAVIGATION = props.showNavigation === false ? false : true
-  const SLIDE_INTERVAL = parseInt(props.interval) ? parseInt(props.interval) : 3500
+  const SLIDE_INTERVAL = parseInt(props.interval)
+    ? parseInt(props.interval)
+    : 3500
   const currentSlide = useSignal(
     parseInt(props.currentSlide) ? parseInt(props.currentSlide) : 0,
   )
@@ -65,7 +69,6 @@ const Slideshow = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log( "INTERVALLALS", automatic.value, SLIDE_INTERVAL)
       if (automatic.value) nextSlide()
     }, SLIDE_INTERVAL)
     return () => clearInterval(interval)
@@ -122,7 +125,9 @@ const Slideshow = (props) => {
     <>
       <div
         ref={slideshow}
-        class={`slideshow relative flex-1 flex-end p-0 overflow-hidden ${props.class !== undefined ? props.class : ""}`}
+        class={`slideshow relative flex-1 flex-end p-0 overflow-hidden ${
+          props.class !== undefined ? props.class : ""
+        }`}
       >
         <IconCircleChevronsLeft
           class={`left-0 ${CHEVRON_STYLE}`}
