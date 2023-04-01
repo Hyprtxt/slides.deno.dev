@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals"
-import { useEffect, useRef } from "preact/hooks"
+import { useEffect } from "preact/hooks"
 import IconCircleChevronsRight from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/circle-chevrons-right.tsx"
 import IconCircleChevronsLeft from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/circle-chevrons-left.tsx"
 import { asset } from "$fresh/runtime.ts"
@@ -36,15 +36,13 @@ const Carousel = (props) => {
   const currentSlide = useSignal(
     parseInt(props.currentSlide) ? parseInt(props.currentSlide) : 0,
   )
+  const automatic = useSignal(props.automatic === false ? false : true)
 
-  const automatic = useSignal(props.automatic ? true : false)
-  const slideshow = useRef(null)
-
-  const slideClasses = (idx = 0, number_slides = 1) => {
+  const slideClasses = (idx = 0) => {
     let outgoingSlide = currentSlide.value - 1
     let incomingSlide = currentSlide.value + 1
-    if (outgoingSlide === -1) outgoingSlide = number_slides - 1
-    if (incomingSlide === number_slides) incomingSlide = 0
+    if (outgoingSlide === -1) outgoingSlide = SLIDE_DATA.length - 1
+    if (incomingSlide === SLIDE_DATA.length) incomingSlide = 0
     // console.log(outgoingSlide, currentSlide.value, incomingSlide)
     const TRANSITION_CLASS = () => {
       if (currentSlide.value === idx) return "translate-x-0 z-20"
@@ -56,8 +54,7 @@ const Carousel = (props) => {
   }
 
   const nextSlide = () => {
-    const numberSlides = slideshow.current.querySelectorAll(".slide")
-    if (numberSlides.length === currentSlide.value + 1) {
+    if (SLIDE_DATA.length === currentSlide.value + 1) {
       currentSlide.value = 0
     } else {
       currentSlide.value++
@@ -65,9 +62,8 @@ const Carousel = (props) => {
   }
 
   const previousSlide = () => {
-    const numberSlides = slideshow.current.querySelectorAll(".slide")
     if (currentSlide.value === 0) {
-      currentSlide.value = numberSlides.length - 1
+      currentSlide.value = SLIDE_DATA.length - 1
     } else {
       currentSlide.value--
     }
@@ -111,60 +107,55 @@ const Carousel = (props) => {
     currentSlide.value = slide_index
   }
 
-  const DotsNavigation = () => {
-    return (
-      <div
-        class={`slide_nav z-30 w-full ${NAVIGATION_COLOR} absolute bottom-0 flex justify-center cursor-pointer`}
-      >
-        {SLIDE_DATA.map((_item, idx) => {
-          return (
-            <div
-              class="px-1 hover:text-grey"
-              onClick={() => {
-                goToSlide(idx)
-              }}
-            >
-              {idx === currentSlide.value ? <>●</> : <>○</>}
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
+  const DotsNavigation = () => (
+    <div
+      class={`slide_nav z-30 w-full ${NAVIGATION_COLOR} absolute bottom-0 flex justify-center cursor-pointer`}
+    >
+      {SLIDE_DATA.map((_item, idx) => {
+        return (
+          <div
+            class="px-1 hover:text-grey"
+            onClick={() => {
+              goToSlide(idx)
+            }}
+          >
+            {idx === currentSlide.value ? <>●</> : <>○</>}
+          </div>
+        )
+      })}
+    </div>
+  )
 
   return (
-    <>
-      <div
-        ref={slideshow}
-        class={`slideshow relative flex-1 flex-end p-0 overflow-hidden ${
-          props.class !== undefined ? props.class : ""
-        }`}
-      >
-        <IconCircleChevronsLeft
-          class={`left-0 ${CHEVRON_STYLE}`}
-          style="top: calc(50% - 20px)"
-          onClick={() => chevronClick(previousSlide)}
-        />
-        <IconCircleChevronsRight
-          class={`right-0 ${CHEVRON_STYLE}`}
-          style="top: calc(50% - 20px)"
-          onClick={() => chevronClick(nextSlide)}
-        />
-        {SLIDE_DATA.map((item, idx) => (
-          <Slide
-            data={item}
-            index={idx}
-            class={slideClasses(idx, SLIDE_DATA.length)}
-          />
-        ))}
-        {SHOW_NAVIGATION &&
-          <DotsNavigation />}
+    <div
+      class={`slideshow relative flex-1 flex-end p-0 overflow-hidden ${
+        props.class !== undefined ? props.class : ""
+      }`}
+    >
+      <IconCircleChevronsLeft
+        class={`left-0 ${CHEVRON_STYLE}`}
+        style="top: calc(50% - 20px)"
+        onClick={() => chevronClick(previousSlide)}
+      />
+      <IconCircleChevronsRight
+        class={`right-0 ${CHEVRON_STYLE}`}
+        style="top: calc(50% - 20px)"
+        onClick={() => chevronClick(nextSlide)}
+      />
+      {SLIDE_DATA.map((item, idx) => (
         <Slide
-          data={SLIDE_DATA[0]}
-          class="opacity-0 pointer-events-none"
+          data={item}
+          index={idx}
+          class={slideClasses(idx, SLIDE_DATA.length)}
         />
-      </div>
-    </>
+      ))}
+      {SHOW_NAVIGATION &&
+        <DotsNavigation />}
+      <Slide
+        data={SLIDE_DATA[0]}
+        class="opacity-0 pointer-events-none"
+      />
+    </div>
   )
 }
 
