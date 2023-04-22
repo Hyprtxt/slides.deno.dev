@@ -44,8 +44,7 @@ const Slideshow = (props) => {
     }`
 
   const nextSlide = () => {
-    const numberSlides = slideshow.current.querySelectorAll(".slide")
-    if (numberSlides.length === currentSlide.value + 1) {
+    if (SLIDE_DATA.length === currentSlide.value + 1) {
       currentSlide.value = 0
     } else {
       currentSlide.value++
@@ -53,9 +52,8 @@ const Slideshow = (props) => {
   }
 
   const previousSlide = () => {
-    const numberSlides = slideshow.current.querySelectorAll(".slide")
     if (currentSlide.value === 0) {
-      currentSlide.value = numberSlides.length - 1
+      currentSlide.value = SLIDE_DATA.length - 1
     } else {
       currentSlide.value--
     }
